@@ -1,4 +1,3 @@
-package cp;
 
 
 
@@ -68,26 +67,26 @@ public class MemberScheduleOps {
 		String test = null;
 		String test2 = null;
 		for (DayOfWeek dayName : DayOfWeek.values()) {
-			System.out.println("Do you want a ride on "+dayName+"?: ([Y]ES/[N]O) ");
+			System.out.println("Do you want a ride on "+dayName+"?: (YES/NO) ");
 			Scanner resp = new Scanner(System.in);
 			String respStr = resp.next();
-			if(respStr.toUpperCase().equals("Y")) {
+			if(respStr.toUpperCase().equals("YES")) {
 				test = dayName.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-				System.out.print("Is this ride to SJSU? ([Y]ES/[N]O)");
+				System.out.print("Is this ride to SJSU? (YES/NO)");
 				Scanner subresp = new Scanner(System.in);
 				String subRespStr = subresp.next();
 				
-				if (subRespStr.toUpperCase().equals("Y")) {
+				if (subRespStr.toUpperCase().equals("YES")) {
 					test +=	" to SJSU @";
 					System.out.print("Enter departure time: (HH:MM)");
 					Scanner subsubresp = new Scanner(System.in);
 					String subsubrespStr = subsubresp.next();
 					test += subsubrespStr;
 					
-					System.out.print("Do you also want ride From SJSU? ([Y]ES/[N]O)");
+					System.out.print("Do you also want ride From SJSU? (YES/NO)");
 					Scanner subresp1 = new Scanner (System.in);
 					String subRespStr1 = subresp1.next();
-					if (subRespStr1.toUpperCase().equals("Y")) {
+					if (subRespStr1.toUpperCase().equals("YES")) {
 						test2 = dayName.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 						test2 += " from SJSU @";
 						System.out.print("Enter departure time: (HH:MM)");
@@ -102,10 +101,10 @@ public class MemberScheduleOps {
 					String subsubrespStr = subsubresp.next();
 					test += subsubrespStr;
 					
-					System.out.print("Do you also want ride to SJSU? ([Y]ES/[N]O)");
+					System.out.print("Do you also want ride to SJSU? (YES/NO)");
 					Scanner subresp1 = new Scanner (System.in);
 					String subRespStr1 = subresp1.next();
-					if (subRespStr1.toUpperCase().equals("Y")) {
+					if (subRespStr1.toUpperCase().equals("YES")) {
 						test2 = dayName.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
 						test2 += " to SJSU @";
 						System.out.print("Enter departure time: (HH:MM)");

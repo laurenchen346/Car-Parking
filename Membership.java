@@ -1,7 +1,3 @@
-package cp;
-
-
-
 
 
 import java.util.Scanner;
@@ -14,7 +10,6 @@ import java.io.*;
 public class Membership
 {
 	private Member member;
-	private MemberType memberType;
 	public Member driverSignup()
 	{
 		  System.out.println("First name: ");
@@ -38,11 +33,19 @@ public class Membership
 		  System.out.println("address: ");
 		  Scanner inAddr=new Scanner(System.in);
 		  String addr=inID.next();
-		  Member driver=new Member(fname,lname,un, email,pw,id,memberType.Driver);//0 represents driver status;
+		  System.out.println("Are you only driver or can be both?\n[D]river\n[B]oth?");
+		  Scanner intype = new Scanner(System.in);
+		  String ans = intype.next();
+		  String membertype;
+		  if(ans.equalsIgnoreCase("D")){
+		   membertype = "driver";
+		  }
+		  else membertype = "both"; 	
+		  Member driver=new Member(fname,lname,un, email,pw,id,membertype, addr,0);//0 represents driver status;
 		  System.out.println("Following info is correct?");
-		  System.out.println("First Name: " + fname + " Last Name: " + lname + " User Name: " + un
-					 + " email: " + email + " Address: " + addr + " Password: " + pw 
-					 + " SJSU ID: " + id);
+		  System.out.println("First Name: " + fname + "\nLast Name: " + lname + "\nUser Name: " + un
+					 + "\nemail: " + email + "\nAddress: " + addr + "\nMember type: " + membertype + "\nPassword: " + pw 
+					 + "\nSJSU ID: " + id);
 		  member=driver;
 		  return driver;
 	}
@@ -66,10 +69,23 @@ public class Membership
 		  System.out.println("SJSU ID: ");
 		  Scanner inID=new Scanner(System.in);
 		  String id=inID.next();
+		  String membertype = "passenger";
 		  System.out.println("address: ");
 		  Scanner inAddr=new Scanner(System.in);
 		  String addr=inID.next();
-		  Member passenger=new Member(fname,lname,un,email,pw,id, memberType.Passenger);//1 represents Passenger status;
+		  System.out.println("Are you only driver or can be both?\n[P]assenger\n[B]oth?");
+		  Scanner intype = new Scanner(System.in);
+		  String ans = intype.next();
+		  String membertype1;
+		  if(ans.equalsIgnoreCase("P")){
+		   membertype1 = "passenger";
+		  }
+		  else membertype1 = "both"; 
+		  Member passenger=new Member(fname,lname,un,email,pw,id,addr, membertype1, 1);//1 represents Passenger status;
+		  System.out.println("Following info is correct?");
+		  System.out.println("First Name: " + fname + "\nLast Name: " + lname + "\nUser Name: " + un
+					 + "\nemail: " + email + "\nAddress: " + addr + "\nMember type: " + membertype1 + "\nPassword: " + pw 
+					 + "\nSJSU ID: " + id);
 		  member=passenger;
 		  return passenger;
 	}
@@ -78,15 +94,16 @@ public class Membership
 		String fname=m.getFirstName();
 		String lname=m.getLastName();
 		String email=m.getEmail();
+		String address=m.getAddress();
 		String id=m.getsjsuID();
-		return "name:  "+fname+" "+lname+"\n"+"Email:  "+email+"\n"+"SJSU ID:  "+id+"\n";
+		return "name:  "+fname+" "+lname+"\n"+"Email:  "+email+"\n"+"SJSU ID:  "+id+"\n"+"Address:  "+ address;
 	}
 	public void editMembership(Member m) throws IOException
 	{
 		boolean finish=false;
      	while(!finish)
      	{
-     		System.out.println("Choose one to edit: [E]mail, [P]assword, [G]o back");
+     		System.out.println("Choose one to edit: [E]mail, [A]ddress, [G]o back");
 		  	Scanner command=new Scanner(System.in);
 		  	String cmd=command.next();
 		  	if(cmd.toUpperCase().equals("E")) 
@@ -96,12 +113,12 @@ public class Membership
 				String email=in.next();
 				m.setEmailAddress(email);
 	 		  }
-		  	if(cmd.toUpperCase().equals("P")) 
+		  	if(cmd.toUpperCase().equals("A")) 
 	 		  {
-		  		System.out.println("Type in new Password: ");
+		  		System.out.println("Type in new Address: ");
 		  		Scanner in=new Scanner(System.in);
-				String password=in.next();
-				m.setPassword(password);
+				String addr=in.next();
+				m.setAddress(addr);
 	 		  }
 		  	if(cmd.toUpperCase().equals("G")) 
 	 		  {
@@ -116,7 +133,8 @@ public class Membership
     	String ln="";
     	String email="";
     	String sjsuid="";
-    	String memType="";
+    	String address="";
+    	String membertype="";
     	String pickuplocation="";
     	String arrivetime="";
     	String departuretime="";
@@ -130,8 +148,8 @@ public class Membership
 		        	ln=txtscan.nextLine();
 		        	email=txtscan.nextLine();
 		        	sjsuid=txtscan.nextLine();
-		        	memType=txtscan.nextLine();
-		        	//address=txtscan.nextLine();
+		        	address=txtscan.nextLine();
+		        	membertype=txtscan.nextLine();
 		        	pickuplocation=txtscan.nextLine();
 		        	arrivetime=txtscan.nextLine();
 		        	departuretime=txtscan.nextLine();
@@ -143,14 +161,9 @@ public class Membership
 		        
 		    }
 		}
-	    
-	    
-			Member member=new Member(fn, ln, un,
-		            email, password, sjsuid, memberType.Passenger);
-	  
-		
-		
-	    
+		Member member=new Member(fn, ln, un,
+	            email, password, sjsuid, address, membertype, 1);
+		//MemberSchedule memberschedule=new MemberSchedule();
 		return member;
 	}
 	public void quitTheSystemAfterSignUp(String filename) throws FileNotFoundException
@@ -168,16 +181,8 @@ public class Membership
 		 out.println(email);
 		 String ID=member.getsjsuID();
 		 out.println(ID);
-		 if(memberType.Passenger != null)
-		 {
-			 out.println("passenger");
-		 }
-		 else if(memberType.Driver !=null)
-		 {
-			 out.println("driver");
-		 }
-		// String address=member.getAddress();
-		// out.println(address);
+		 String address=member.getAddress();
+		 out.println(address);
 		 String pickuplocation=member.getMemberschedule().getPickUpLocation().toString();
 		 out.println(pickuplocation);
 		 String arrivaltime=member.getMemberschedule().getArrivalTime().toString();
@@ -191,3 +196,5 @@ public class Membership
 	}
 }
 	
+
+
